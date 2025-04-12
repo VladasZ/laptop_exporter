@@ -73,5 +73,7 @@ if __name__ == "__main__":
 
     build_target("x86_64-unknown-linux-gnu")
     build_target("aarch64-unknown-linux-gnu")
+    build_target("x86_64-apple-darwin")
+    build_target("aarch64-apple-darwin")
 
     copy_artifacts()
