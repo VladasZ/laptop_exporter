@@ -50,17 +50,22 @@ def ensure_cross_installed():
         print("✅ `cross` is already installed.")
 
 
-def build_target(target):
+def build_cross(target):
     print(f"🔨 Building for {target}...")
     run_cmd(["cross", "build", "--target", target, "--release"])
+
+
+def build(target):
+    print(f"🔨 Building for {target}...")
+    run_cmd(["cargo", "build", "--target", target, "--release"])
 
 
 if __name__ == "__main__":
     ensure_cross_installed()
 
-    build_target("x86_64-unknown-linux-gnu")
-    build_target("aarch64-unknown-linux-gnu")
-    build_target("x86_64-apple-darwin")
-    build_target("aarch64-apple-darwin")
+    build_cross("x86_64-unknown-linux-gnu")
+    build_cross("aarch64-unknown-linux-gnu")
+    build("x86_64-apple-darwin")
+    build("aarch64-apple-darwin")
 
     copy_artifacts()
