@@ -26,8 +26,10 @@ def copy_artifacts():
     ARTIFACTS_DIR.mkdir(exist_ok=True)
 
     targets = {
-        "x86_64": "target/x86_64-unknown-linux-gnu/release/laptop_exporter",
-        "aarch64": "target/aarch64-unknown-linux-gnu/release/laptop_exporter",
+        "x86_64-linux": "target/x86_64-unknown-linux-gnu/release/laptop_exporter",
+        "aarch64-linux": "target/aarch64-unknown-linux-gnu/release/laptop_exporter",
+        "x86_64-macos": "target/x86_64-apple-darwin/release/laptop_exporter",
+        "aarch64-macos": "target/aarch64-apple-darwin/release/laptop_exporter",
     }
 
     for arch, path in targets.items():
@@ -49,7 +51,13 @@ def ensure_cross_installed():
 
 
 def ensure_targets_installed():
-    targets = ["x86_64-unknown-linux-gnu", "aarch64-unknown-linux-gnu"]
+    targets = [
+        "x86_64-unknown-linux-gnu",
+        "aarch64-unknown-linux-gnu",
+        "x86_64-apple-darwin",
+        "aarch64-apple-darwin"
+    ]
+
     for target in targets:
         run_cmd(["rustup", "target", "add", target], check=False)
 
