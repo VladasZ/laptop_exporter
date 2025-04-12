@@ -3,6 +3,9 @@
 import subprocess
 import os
 import shutil
+from pathlib import Path
+
+ARTIFACTS_DIR = Path("artifacts")
 
 
 def run_cmd(cmd, check=True):
@@ -15,6 +18,26 @@ def run_cmd(cmd, check=True):
     else:
         print(f"✅ Done:\n{result.stdout.strip()}")
     return result
+
+
+def copy_artifacts():
+    print("\n📦 Copying artifacts...")
+
+    ARTIFACTS_DIR.mkdir(exist_ok=True)
+
+    targets = {
+        "x86_64": "target/x86_64-unknown-linux-gnu/release/laptop_exporter",
+        "aarch64": "target/aarch64-unknown-linux-gnu/release/laptop_exporter",
+    }
+
+    for arch, path in targets.items():
+        src = Path(path)
+        dst = ARTIFACTS_DIR / f"laptop_exporter-{arch}"
+        if src.exists():
+            shutil.copy2(src, dst)
+            print(f"✅ Copied to {dst}")
+        else:
+            print(f"❌ Missing binary: {src}")
 
 
 def ensure_cross_installed():
@@ -42,3 +65,5 @@ if __name__ == "__main__":
 
     build_target("x86_64-unknown-linux-gnu")
     build_target("aarch64-unknown-linux-gnu")
+
+    copy_artifacts()

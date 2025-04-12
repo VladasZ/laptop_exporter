@@ -19,23 +19,18 @@ jobs:
       - name: Build
         run: python3 build.py
 
-      - name: Upload x86_64 binary
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: laptop_exporter-x86_64
-          path: target/x86_64-unknown-linux-gnu/release/laptop_exporter
+          name: build-output
+          path: artifacts/
 
-      - name: Upload ARM64 binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: laptop_exporter-aarch64
-          path: target/aarch64-unknown-linux-gnu/release/laptop_exporter
-
-      - name: Create GitHub Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            target/x86_64-unknown-linux-gnu/release/laptop_exporter
-            target/aarch64-unknown-linux-gnu/release/laptop_exporter
+          files: artifacts/*
+          body: |
+            Tain CLI v0.6.1
+            - Built for `aarch64-unknown-linux-gnu`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
