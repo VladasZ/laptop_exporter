@@ -50,18 +50,6 @@ def ensure_cross_installed():
         print("✅ `cross` is already installed.")
 
 
-def ensure_targets_installed():
-    targets = [
-        "x86_64-unknown-linux-gnu",
-        "aarch64-unknown-linux-gnu",
-        "x86_64-apple-darwin",
-        "aarch64-apple-darwin"
-    ]
-
-    for target in targets:
-        run_cmd(["rustup", "target", "add", target], check=False)
-
-
 def build_target(target):
     print(f"🔨 Building for {target}...")
     run_cmd(["cross", "build", "--target", target, "--release"])
@@ -69,7 +57,6 @@ def build_target(target):
 
 if __name__ == "__main__":
     ensure_cross_installed()
-    ensure_targets_installed()
 
     build_target("x86_64-unknown-linux-gnu")
     build_target("aarch64-unknown-linux-gnu")
